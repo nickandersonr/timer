@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="compiled/flipclock.css">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+		<script src="compiled/flipclock.js"></script>		
+	</head>
+	<body>
+	<div class="clock" style="margin:2em;"></div>
+	<div class="message"></div>
+
+	<button class="start">Start Clock</button>
+        
+        
+    <div>
+        <input id="code" />   
+        <button id="codeSubmit" type="button">Submit</button>
+    </div>
+
+	<script type="text/javascript">
+		var clock;
+		
+		$(document).ready(function() {
+			
+			clock = $('.clock').FlipClock(10, {
+		        clockFace: 'MinuteCounter',
+		        countdown: true,
+		        autoStart: false,
+		        callbacks: {
+		        	start: function() {
+		        		$('.message').html('You have fifteen minutes.');
+		        	}
+		        }
+		    });
+            
+            clock.setTime(900);
+            
+		    $('.start').click(function(e) {
+		    	clock.start();
+                $( ".start" ).hide( "slow" );
+		    });
+            
+            $( "#codeSubmit" ).click(function() {
+                var string = document.getElementById('code').value;
+                var re = new RegExp("12345");
+                if (re.test(string)) {
+                    console.log("Valid");
+                    clock.stop();
+                    $('.message').html('Passcode Accepted');
+                } else {
+                    $('.message').html('Passcode Denied');
+                }
+            });
+            
+            
+            
+            /*
+            if (hour < 18) {
+                greeting = "Good day";
+            } else {
+                $('.message').html('Wrong code. Try again.');
+            }
+            */
+
+		});
+	</script>
+	
+	</body>
+</html>
