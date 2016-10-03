@@ -1,23 +1,35 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="compiled/flipclock.css">
+        <link rel="stylesheet" href="compiled/flipclock.css">
+		<link rel="stylesheet" href="compiled/bootstrap.min.css">
+        <link rel="stylesheet" href="compiled/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
 		<script src="compiled/flipclock.js"></script>		
 	</head>
 	<body>
-	<div class="clock" style="margin:2em;"></div>
-	<div class="message"></div>
-
-	<button class="start">Start Clock</button>
+        <div id="mass_container" class="container-fluid">
+            
+            <div id="clock_container" class="row">
+                <div class="container">
+                    <div class="clock"></div>
+                    <div class="message">* * * * *</div>
+                    <button class="button start">Start Clock</button>
+                </div>
+            </div>
+            
+            <div id="code_holder" class="row">
+                <div class="container">
+                    <input id="code" />   
+                    <button id="codeSubmit" class="button" type="button">Submit</button>
+                </div>
+            </div>
+            
+        </div>
         
-        
-    <div>
-        <input id="code" />   
-        <button id="codeSubmit" type="button">Submit</button>
-    </div>
-
 	<script type="text/javascript">
 		var clock;
 		
@@ -29,7 +41,7 @@
 		        autoStart: false,
 		        callbacks: {
 		        	start: function() {
-		        		$('.message').html('You have fifteen minutes.');
+		        		$('.message').html('Countdown initiated');
 		        	}
 		        }
 		    });
@@ -39,30 +51,33 @@
 		    $('.start').click(function(e) {
 		    	clock.start();
                 $( ".start" ).hide( "slow" );
+                $( "#code_holder").animate({ opacity: "1" }, 1000 );
 		    });
             
             $( "#codeSubmit" ).click(function() {
                 var string = document.getElementById('code').value;
-                var re = new RegExp("12345");
+                var re = new RegExp("7rj4gh2brl8htsl");
                 if (re.test(string)) {
                     console.log("Valid");
                     clock.stop();
                     $('.message').html('Passcode Accepted');
+                    $( ".message").animate({ zoom: "3" }, 5000 );
+                    setTimeout(function(){
+                        $( "html").css({"background": "#000"});
+                        $( "body").animate({ opacity: "0" }, 5000 );
+                    }, 500);
+                    
                 } else {
                     $('.message').html('Passcode Denied');
                 }
             });
-            
-            
-            
-            /*
-            if (hour < 18) {
-                greeting = "Good day";
-            } else {
-                $('.message').html('Wrong code. Try again.');
-            }
-            */
-
+            window.setInterval(function(){
+                var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=glitchart&api_key=dc6zaTOxFJmzC&limit=10");
+                var random = Math.ceil(Math.random() * 20);
+                xhr.done(function(data) { 
+                  $('body').css("background-image", 'url(https://media.giphy.com/media/' + data.data[random].id + '/giphy.gif)'); 
+                });
+            }, 5000);
 		});
 	</script>
 	
