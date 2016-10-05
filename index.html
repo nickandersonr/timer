@@ -46,7 +46,7 @@
 		        }
 		    }); 
             
-            clock.setTime(900);
+            clock.setTime(1200);
             
 		    $('.start').click(function(e) {
 		    	clock.start();
@@ -56,7 +56,7 @@
             
             $( "#codeSubmit" ).click(function() {
                 var string = document.getElementById('code').value;
-                var re = new RegExp("7rj4gh2brl8htsl");
+                var re = new RegExp("truth");
                 if (re.test(string)) {
                     console.log("Valid");
                     clock.stop();
